@@ -1,8 +1,16 @@
 #!/usr/bin/env python
 
-import argparse, os, shutil
+# if "$(ConfigurationName)" == "InstallDebug" (
+# call $(SolutionDir)\Scripts\client_postbuild.bat $(SolutionDir)
+# )
 
-SCRIPT_DIR = os.path.realpath(__file__)
+# if "$(ConfigurationName)" == "InstallRelease" (
+# call $(SolutionDir)\Scripts\client_postbuild.bat $(SolutionDir)
+# )
+
+import argparse, json, os, shutil
+
+SCRIPT_DIR = os.path.realpath(os.path.dirname(__file__))
 ALLOWLIST = [
     "YgoMasterClient.exe",
     "YgoMasterLoader.dll"
@@ -17,7 +25,7 @@ def get_parsed_args():
 
     parser = argparse.ArgumentParser(prog="copy_built", description="todo", epilog="bottom text?")
     parser.add_argument("-i", "--source_dir", metavar="SOURCE_DIR", type=dir_path, required=True, help="Input directory")
-    parser.add_argument("-o", "--target_dir", metavar="TARGET_DIR", type=dir_path, required=True, help="Output directory")
+    parser.add_argument("-o", "--target_dir", metavar="TARGET_DIR", type=dir_path, help="Output directory")
     return parser.parse_args()
 
 def create_directories(target_dir):
@@ -61,12 +69,20 @@ def copy_files_to_directory(source_dir, target_dir):
 
 if __name__ == "__main__":
     args = get_parsed_args()
-    tgt_dir = args.target_dir
     src_dir = args.source_dir
 
-    for f in ALLOWLIST:
-        remove(os.path.join(tgt_dir, f))
-        copy_file(os.path.join(src_dir, f), os.path.join(tgt_dir, f))
+    tgt_dir = ""
+    if args.target_dir:
+        tgt_dir = args.target_dir
+    else:
+        with open(os.path.join(SCRIPT_DIR, "client_postbuild_paths.json")) as jf:
+            data = json.load(jf)
+            tgt_dir = data["target_dir"]
+
+    if os.path.isdir(tgt_dir):
+        for f in ALLOWLIST:
+            remove(os.path.join(tgt_dir, f))
+            copy_file(os.path.join(src_dir, f), os.path.join(tgt_dir, f))
 
     # remove_files_in_directory(tgt_dir, True)
     # copy_files_to_directory(src_dir, tgt_dir)
