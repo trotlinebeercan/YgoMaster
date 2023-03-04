@@ -36,6 +36,13 @@ namespace YgoMasterClient
             {
                 // Invalid install location...
             }
+            else if (File.Exists("MultiplayerEnabled.txt"))
+            {
+                // TODO: check if a server is running and/or we're able to connect to it before
+                //       starting the client. the sleep will work, for now, but not later
+                Thread.Sleep(1000);
+                success = GameLauncher.Launch(GameLauncherMode.Detours);
+            }
             else if ((args.Length > 0 && args[0].ToLower() == "live") || !File.Exists("YgoMaster.exe"))
             {
                 using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
