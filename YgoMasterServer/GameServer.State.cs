@@ -95,13 +95,8 @@ namespace YgoMaster
                 Utils.LogWarning("Failed to find data directory '" + dataDirectory + "'");
                 return;
             }
-            settingsFile = Path.Combine(dataDirectory, "Settings.json");
-            playersDirectory = Path.Combine(dataDirectory, "Players");
-            if (!MultiplayerEnabled)
-            {
-                Utils.TryCreateDirectory(GetDecksDirectory(null));
-            }
 
+            settingsFile = Path.Combine(dataDirectory, "Settings.json");
             if (!File.Exists(settingsFile))
             {
                 Utils.LogWarning("Failed to load settings file");
@@ -128,7 +123,16 @@ namespace YgoMaster
             {
                 throw new Exception("Failed to get server url settings");
             }
+
             MultiplayerEnabled = Utils.GetValue<bool>(values, "MultiplayerEnabled");
+            if (MultiplayerEnabled)
+            {
+                playersDirectory = Path.Combine(dataDirectory, "Players");
+                if (!Directory.Exists(playersDirectory))
+                {
+                    throw new Exception("Multiplayer is enabled but we do not have a list of players");
+                }
+            }
 
             NumDeckSlots = Utils.GetValue<int>(values, "DeckSlots", 20);
             Utils.GetIntHashSet(values, "DefaultItems", DefaultItems = new HashSet<int>(), ignoreZero: true);
@@ -234,7 +238,7 @@ namespace YgoMaster
             if (MultiplayerEnabled)
             {
                 nextPlayerCode = 1;
-                string playersDir = Path.Combine(dataDirectory, "Players");
+                string playersDir = playersDirectory;
                 if (Directory.Exists(playersDir))
                 {
                     foreach (string dir in Directory.GetDirectories(Path.Combine(playersDir)))
@@ -252,10 +256,14 @@ namespace YgoMaster
                                 Dictionary<string, object> playerData = MiniJSON.Json.DeserializeStripped(File.ReadAllText(playerFile)) as Dictionary<string, object>;
                                 uint playerCodeInData;
                                 string token;
-                                if (playerData != null && Utils.TryGetValue(playerData, "Code", out playerCodeInData) && playerCodeInData == playerCode &&
-                                    Utils.TryGetValue(playerData, "token", out token) && !string.IsNullOrEmpty(token))
+                                if (playerData != null &&
+                                    Utils.TryGetValue(playerData, "Code", out playerCodeInData) &&
+                                    playerCodeInData == playerCode &&
+                                    Utils.TryGetValue(playerData, "Token", out token) &&
+                                    !string.IsNullOrEmpty(token))
                                 {
-                                    playersByToken[token] = null;
+                                    playersByToken[token] = new Player(playerCodeInData);
+                                    LoadPlayer(playersByToken[token]);
                                 }
                             }
                         }
@@ -743,9 +751,9 @@ namespace YgoMaster
 
         string GetPlayerDirectory(Player player)
         {
-            if (MultiplayerEnabled)
+            if (MultiplayerEnabled && Directory.Exists(playersDirectory))
             {
-                return Path.Combine(dataDirectory, player.Code.ToString());
+                return Path.Combine(playersDirectory, player.Code.ToString("000000000;(0);**Zero**"));
             }
             else
             {
