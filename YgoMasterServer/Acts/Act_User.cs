@@ -96,6 +96,45 @@ namespace YgoMaster
             WriteUser(request);
         }
 
+        void Act_UserGetProfile(GameServerWebRequest request)
+        {
+            uint playerCode;
+            if (Utils.TryGetValue(request.ActParams, "pcode", out playerCode))
+            {
+                foreach (var player in playersByToken.Values)
+                {
+                    if (player.Code == playerCode)
+                    {
+                        request.Player = player;
+                        break;
+                    }
+                }
+            }
+            request.Response["Friend"] = new Dictionary<string, object>()
+            {
+                { "profile", new Dictionary<string, object>() {
+                    { "name", request.Player.Name },
+                    { "rank", request.Player.Rank },
+                    { "rate", request.Player.Rate },
+                    { "level", request.Player.Level },
+                    { "exp", request.Player.Exp },
+                    { "need_exp", request.Player.Exp + 1000 },
+                    { "icon_id", request.Player.IconId },
+                    { "icon_frame_id", request.Player.IconFrameId },
+                    { "follow_num", playersByToken.Count() },
+                    { "follower_num", playersByToken.Count() },
+                    { "avatar_id", request.Player.AvatarId },
+                    { "wallpaper", request.Player.Wallpaper },
+                    { "tag", request.Player.TitleTags.ToArray() },
+                    { "is_follow", true },
+                    { "is_block", false },
+                    { "is_ps_block", false },
+                    { "is_xbox_block", false }
+                } }
+            };
+            request.Remove("Friend.profile");
+        }
+
         void Act_UserHome(GameServerWebRequest request)
         {
             // Room / Master.Regulation are required to create decks / view public decks without breaking the client

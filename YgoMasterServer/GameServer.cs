@@ -170,6 +170,9 @@ namespace YgoMaster
                                     case "User.name_entry":
                                         Act_UserNameEntry(gameServerWebRequest);
                                         break;
+                                    case "User.profile":
+                                        Act_UserGetProfile(gameServerWebRequest);
+                                        break;
                                     case "User.set_profile":
                                         Act_UserSetProfile(gameServerWebRequest);
                                         break;
