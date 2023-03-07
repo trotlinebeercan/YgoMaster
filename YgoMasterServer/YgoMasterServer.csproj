@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="Acts\Act_Craft.cs" />
     <Compile Include="Acts\Act_Duel.cs" />
+    <Compile Include="Acts\Act_Friend.cs" />
     <Compile Include="Acts\Act_Solo.cs" />
     <Compile Include="Acts\Act_SystemAccount.cs" />
     <Compile Include="Acts\Act_Deck.cs" />

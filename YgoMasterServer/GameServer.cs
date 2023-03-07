@@ -248,6 +248,12 @@ namespace YgoMaster
                                     case "Duel.end":
                                         Act_DuelEnd(gameServerWebRequest);
                                         break;
+                                    case "Friend.get_list":
+                                        Act_FriendGetList(gameServerWebRequest);
+                                        break;
+                                    case "Friend.refresh_info":
+                                        Act_FriendRefreshInfo(gameServerWebRequest);
+                                        break;
                                     default:
                                         Utils.LogInfo("Unhandled act " + actsHeader);
                                         Debug.WriteLine("Unhandled act " + actsHeader + " " + MiniJSON.Json.Serialize(vals));
