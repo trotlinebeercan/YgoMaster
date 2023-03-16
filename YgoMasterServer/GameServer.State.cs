@@ -1443,6 +1443,9 @@ namespace YgoMaster
                             case ItemID.Category.WALLPAPER:
                                 info.SubCategory = (int)ShopSubCategoryAccessory.Wallpaper;
                                 break;
+                            case ItemID.Category.DECK_CASE:
+                                info.SubCategory = (int)ShopSubCategoryAccessory.DeckCase;
+                                break;
                             default:
                                 Utils.LogWarning("Unhandled shop accessory type " + itemCategory + " for item id " + info.Id);
                                 return;
