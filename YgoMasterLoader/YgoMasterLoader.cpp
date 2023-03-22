@@ -156,8 +156,10 @@ HRESULT LoadDotNetImpl()
         if (wcslen(dllPath) > 0 && FileExists(dllPath))
         {
             PathRemoveFileSpecW(dllPath);
-            wcscpy(binaryPath, dllPath);
-            wcscat(binaryPath, L"\\YgoMasterClient.exe");
+            wcscpy_s(binaryPath, dllPath);
+            wcscat_s(binaryPath, L"\\YgoMasterClient.exe");
+            //wcscpy(binaryPath, dllPath);
+            //wcscat(binaryPath, L"\\YgoMasterClient.exe");
         }
     }
     if (!FileExists(binaryPath))
@@ -171,10 +173,11 @@ HRESULT LoadDotNetImpl()
 void LoadDotNet()
 {
     HRESULT res = LoadDotNetImpl();
-    if (res)
+    if (!SUCCEEDED(res))
     {
         char buffer[1024];
-        sprintf(buffer, "LoadDotNet failed with 0x%lx", res);
+        sprintf_s(buffer, "LoadDotNet failed with 0x%lx", res);
+        //sprintf(buffer, "LoadDotNet failed with 0x%lx", res);
         MessageBox(0, buffer, 0, 0);
         TerminateProcess(GetCurrentProcess(), 0);
     }
