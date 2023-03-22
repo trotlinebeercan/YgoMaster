@@ -20,6 +20,7 @@ namespace YgoMasterClient
         public static bool DuelStarterShowFirstPlayer;
         public static int DuelStarterLiveChapterId;
         public static bool DuelStarterLiveNotLiveTest;
+        public static bool DuelStarterEnableColosseum;
         public static bool DeckEditorDisableLimits;
         public static bool DeckEditorConvertStyleRarity;
         public static bool DeckEditorShowStats;
@@ -63,7 +64,7 @@ namespace YgoMasterClient
             }
             ServerUrl = YgoMaster.Utils.GetValue<string>(data, "ServerUrl");
             ServerPollUrl = YgoMaster.Utils.GetValue<string>(data, "ServerPollUrl");
-            MultiplayerToken = YgoMaster.Utils.GetValue<string>(data, "MultiplayerToken");
+            MultiplayerToken = YgoMaster.Utils.GetValue<string>(data, "MultiplayerToken", "");
             ShowConsole = YgoMaster.Utils.GetValue<bool>(data, "ShowConsole");
             LogIDs = YgoMaster.Utils.GetValue<bool>(data, "LogIDs");
             AssetHelperLog = YgoMaster.Utils.GetValue<bool>(data, "AssetHelperLog");
@@ -75,6 +76,7 @@ namespace YgoMasterClient
             DuelStarterShowFirstPlayer = YgoMaster.Utils.GetValue<bool>(data, "DuelStarterShowFirstPlayer");
             DuelStarterLiveChapterId = YgoMaster.Utils.GetValue<int>(data, "DuelStarterLiveChapterId");
             DuelStarterLiveNotLiveTest = YgoMaster.Utils.GetValue<bool>(data, "DuelStarterLiveNotLiveTest");
+            DuelStarterEnableColosseum = YgoMaster.Utils.GetValue<bool>(data, "DuelStarterEnableColosseum", MultiplayerToken.Length > 0);
             DuelClientShowRemainingCardsInDeck = YgoMaster.Utils.GetValue<bool>(data, "DuelClientShowRemainingCardsInDeck");
             DuelClientMillenniumEye = YgoMaster.Utils.GetValue<bool>(data, "DuelClientMillenniumEye");
             DuelClientDisableCameraShake = YgoMaster.Utils.GetValue<bool>(data, "DuelClientDisableCameraShake");

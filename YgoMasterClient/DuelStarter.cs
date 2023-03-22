@@ -1569,7 +1569,7 @@ namespace YgomSystem.UI
             if (prefabpathPtr != IntPtr.Zero)
             {
                 string prefabpath = new IL2String(prefabpathPtr).ToString();
-                if (!Program.IsLive && prefabpath == "Colosseum/Colosseum")
+                if (!Program.IsLive && !ClientSettings.DuelStarterEnableColosseum && prefabpath == "Colosseum/Colosseum")
                 {
                     // Redirect the home screen "DUEL" button to RoomCreate
                     YgomGame.Room.RoomCreateViewController.IsNextInstanceHacked = true;
