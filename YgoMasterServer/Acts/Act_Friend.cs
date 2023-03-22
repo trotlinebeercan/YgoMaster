@@ -36,7 +36,7 @@ namespace YgoMaster
                     { "online_time", 1677909365 },
                     { "login_time", 1677817039 }
                 };
-                follow.Add(GetPlayerCodeAsString(player), entry_follow);
+                follow.Add(player.CodeAsFormattedString(), entry_follow);
 
                 var entry_follower = new Dictionary<string, object>()
                 {

@@ -50,6 +50,11 @@ namespace YgoMaster
             Duel = new PlayerDuelState(this);
         }
 
+        public string CodeAsFormattedString()
+        {
+            return Code.ToString("000000000;(0);**Zero**");
+        }
+
         public Dictionary<string, object> SoloChaptersToDictionary()
         {
             Dictionary<string, object> result = new Dictionary<string, object>();

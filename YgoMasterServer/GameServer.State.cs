@@ -758,17 +758,12 @@ namespace YgoMaster
         {
             if (MultiplayerEnabled && Directory.Exists(playersDirectory))
             {
-                return Path.Combine(playersDirectory, GetPlayerCodeAsString(player));
+                return Path.Combine(playersDirectory, player.CodeAsFormattedString());
             }
             else
             {
                 return dataDirectory;
             }
-        }
-
-        string GetPlayerCodeAsString(Player player)
-        {
-            return player.Code.ToString("000000000;(0);**Zero**");
         }
 
         string GetDecksDirectory(Player player)
