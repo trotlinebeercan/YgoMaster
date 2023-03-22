@@ -31,6 +31,9 @@ namespace YgoMaster
         Dictionary<string, Player> playersByToken = new Dictionary<string, Player>();
         uint nextPlayerCode;
 
+        //Dictionary<int, Room> ActiveDuelRooms = new Dictionary<int, Room>();
+        Room ActiveDuelRoom;
+
         int NumDeckSlots;
         bool UnlockAllCards;
         bool UnlockAllItems;

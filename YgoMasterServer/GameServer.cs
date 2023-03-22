@@ -254,6 +254,27 @@ namespace YgoMaster
                                     case "Friend.refresh_info":
                                         Act_FriendRefreshInfo(gameServerWebRequest);
                                         break;
+                                    case "DuelMenu.info":
+                                        Act_DuelMenuInfo(gameServerWebRequest);
+                                        break;
+                                    case "DuelMenu.deck_check":
+                                        // gbx:dhopper TODO
+                                        break;
+                                    case "Room.room_create":
+                                        Act_RoomCreate(gameServerWebRequest);
+                                        break;
+                                    case "Room.room_table_polling":
+                                        Act_RoomTablePolling(gameServerWebRequest);
+                                        break;
+                                    case "Room.table_arrive":
+                                        Act_RoomTableArrive(gameServerWebRequest);
+                                        break;
+                                    case "Room.table_leave":
+                                        Act_RoomTableLeave(gameServerWebRequest);
+                                        break;
+                                    case "Room.room_exit":
+                                        Act_RoomExit(gameServerWebRequest);
+                                        break;
                                     default:
                                         Utils.LogInfo("Unhandled act " + actsHeader);
                                         Debug.WriteLine("Unhandled act " + actsHeader + " " + MiniJSON.Json.Serialize(vals));

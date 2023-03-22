@@ -227,5 +227,16 @@ namespace YgoMaster
                 }},
             };
         }
+
+        void WriteRoom(GameServerWebRequest request, Room room)
+        {
+            if (room != null)
+            {
+                request.Response["Room"] = new Dictionary<string, object>()
+                {
+                    { "room_info", room.ToResponse() }
+                };
+            }
+        }
     }
 }
