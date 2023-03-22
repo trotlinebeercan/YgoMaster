@@ -189,4 +189,37 @@ namespace YgoMaster
         PerformedPendulumSummon,
         LinkSummon
     }
+
+    /// <summary>
+    /// IDS_CARDMENU_REGULATION
+    /// </summary>
+    enum CardMenuRegulationType
+    {
+        Unknown = -1,
+        Unlimited = 8,
+        Normal = 1006,
+        Fusion = 2006,
+        Synchro = 3006,
+        Xyz = 4006,
+        Link = 5006,
+    }
+
+    static class CardMenuRegulationTypeExtensions
+    {
+        public static string GetUnderlyingEnumString(this CardMenuRegulationType t)
+        {
+            switch (t)
+            {
+                case CardMenuRegulationType.Unlimited: return "IDS_CARDMENU_REGULATION_UNLIMITED";
+                case CardMenuRegulationType.Normal:    return "IDS_CARDMENU_REGULATION_NORMAL";
+                case CardMenuRegulationType.Fusion:    return "IDS_CARDMENU_REGULATION_FUSION";
+                case CardMenuRegulationType.Synchro:   return "IDS_CARDMENU_REGULATION_SYNCHRO";
+                case CardMenuRegulationType.Xyz:       return "IDS_CARDMENU_REGULATION_XYZ";
+                case CardMenuRegulationType.Link:      return "IDS_CARDMENU_REGULATION_LINK";
+
+                case CardMenuRegulationType.Unknown:
+                default: return "IDS_CARDMENU_REGULATION_UNKNOWN";
+            }
+        }
+    }
 }
