@@ -593,23 +593,25 @@ namespace YgomGame.Room
             if (!IsNextInstanceHacked)
             {
                 activeViewController = IntPtr.Zero;
-                return;
             }
-            IsNextInstanceHacked = false;
-            activeViewController = thisPtr;
+            else
+            {
+                IsNextInstanceHacked = false;
+                activeViewController = thisPtr;
+
+                // Modify the title of the view
+                IntPtr titleObj = UnityEngine.GameObject.FindGameObjectByName(UnityEngine.Component.GetGameObject(thisPtr), "NameText");
+                IntPtr titleComponent = UnityEngine.GameObject.GetComponent(titleObj, bindingTextType);
+                YgomSystem.UI.BindingTextMeshProUGUI.SetTextId(titleComponent, duelSettingsManager.Title);
+
+                // Modify the text of the button on the bottom right (v1.2.0 changed from "OKButton" to "ButtonOK")
+                IntPtr duelStartButtonObj = UnityEngine.GameObject.FindGameObjectByName(UnityEngine.Component.GetGameObject(thisPtr), "ButtonOK");
+                IntPtr duelStartButtonTextObj = UnityEngine.GameObject.FindGameObjectByName(duelStartButtonObj, "TextTMP");
+                IntPtr duelStartButtonTextComponent = UnityEngine.GameObject.GetComponent(duelStartButtonTextObj, bindingTextType);
+                YgomSystem.UI.BindingTextMeshProUGUI.SetTextId(duelStartButtonTextComponent, duelSettingsManager.ButtonText);
+            }
 
             hookOnCreatedView.Original.Invoke(thisPtr);
-            
-            // Modify the title of the view
-            IntPtr titleObj = UnityEngine.GameObject.FindGameObjectByName(UnityEngine.Component.GetGameObject(thisPtr), "NameText");
-            IntPtr titleComponent = UnityEngine.GameObject.GetComponent(titleObj, bindingTextType);
-            YgomSystem.UI.BindingTextMeshProUGUI.SetTextId(titleComponent, duelSettingsManager.Title);
-
-            // Modify the text of the button on the bottom right (v1.2.0 changed from "OKButton" to "ButtonOK")
-            IntPtr duelStartButtonObj = UnityEngine.GameObject.FindGameObjectByName(UnityEngine.Component.GetGameObject(thisPtr), "ButtonOK");
-            IntPtr duelStartButtonTextObj = UnityEngine.GameObject.FindGameObjectByName(duelStartButtonObj, "TextTMP");
-            IntPtr duelStartButtonTextComponent = UnityEngine.GameObject.GetComponent(duelStartButtonTextObj, bindingTextType);
-            YgomSystem.UI.BindingTextMeshProUGUI.SetTextId(duelStartButtonTextComponent, duelSettingsManager.ButtonText);
         }
 
         public static void NotificationStackRemove(IntPtr thisPtr)
